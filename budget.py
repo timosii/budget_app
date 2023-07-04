@@ -19,7 +19,7 @@ class Category:
         balance = 0
         for note in self.ledger:
             for _, v in note.items():
-                if type(v) == int:
+                if type(v) in (int,float):
                     balance += v
 
         return balance
@@ -39,11 +39,24 @@ class Category:
         return False if self.amount > self.get_balance() else True
 
 
+    def display(self):
+        first_string = self.name.center(30, '*')
+        res = first_string + '\n'
+        for action in self.ledger:
+            res += \
+            f"{action['description'].ljust(23)}{str(action['amount']).rjust(7)}\n" 
+        res += f"Total: {self.get_balance()}"
+
+        return res
+
+    
 
 
-
-food = Category("food")
-sport = Category('sport')
-
-
+food = Category("Food")
+clothing = Category("Clothing")
+food.deposit(1000.00, 'initial deposit')
+food.withdraw(10.15, 'groceries')
+food.withdraw(15.89, 'restaurant and more foo')
+food.transfer(50.00, clothing)
+print(food.display())
 
