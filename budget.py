@@ -1,11 +1,8 @@
-from typing import List
-
-
 class Category:
-    ledger: List = []
 
     def __init__(self, name):
         self.name = name
+        self.ledger = []
 
 
     def deposit(self, amount, description=''):
@@ -21,17 +18,17 @@ class Category:
     def get_balance(self):
         balance = 0
         for note in self.ledger:
-            for a, d in note:
-                if a == "amount":
-                    balance += d
+            for _, v in note.items():
+                if type(v) == int:
+                    balance += v
+
         return balance
 
 
     def transfer(self, amount, category):
-        self.category = category.Category()
         if self.check_funds(amount):
-            self.category.withdraw(amount, f"Transfer to {self.category}")
-            self.category.deposit(amount, f"Transfer from {self.category}")
+            self.withdraw(amount, f"Transfer to {category.name}")
+            category.deposit(amount, f"Transfer from {self.name}")
             return True
         else:
             return False
@@ -39,7 +36,14 @@ class Category:
 
     def check_funds(self, amount):
         self.amount = amount
-        return True if self.amount > self.get_balance() else False
+        return False if self.amount > self.get_balance() else True
+
+
+
+
 
 food = Category("food")
-print(food)
+sport = Category('sport')
+
+
+
