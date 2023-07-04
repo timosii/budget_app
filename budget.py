@@ -58,5 +58,24 @@ food.deposit(1000.00, 'initial deposit')
 food.withdraw(10.15, 'groceries')
 food.withdraw(15.89, 'restaurant and more foo')
 food.transfer(50.00, clothing)
+
+clothing.deposit(180.00, 'initial deposit')
+clothing.withdraw(10.25, 'skirt')
+clothing.withdraw(23.09, 'trousers')
+
+
 print(food.display())
+print(clothing.display())
+
+
+def create_spend_chart(lst):
+    '''
+    Принимает список категорий, возвращает строку
+    '''
+    first_string = "Percentage spent by category"
+    hash_table_of_strings = {1:'100| ',2:'90| ',3:'80| ',4:'70| ',5:'60| ',6:'50| ',7:'40| ',8:'30| ',9:'20| ',10:'10| ',11:' 0| '}
+    return hash_table_of_strings
+
+print(create_spend_chart([1]))
+
 
