@@ -49,6 +49,15 @@ class Category:
 
         return res
 
+    def spent(self):
+        res = 0
+        for action in self.ledger:
+            if action['amount'] < 0:
+                res += abs(action['amount'])
+        return round(res, 2)
+
+
+
     
 
 
@@ -64,18 +73,67 @@ clothing.withdraw(10.25, 'skirt')
 clothing.withdraw(23.09, 'trousers')
 
 
-print(food.display())
-print(clothing.display())
+
+print(food)
 
 
 def create_spend_chart(lst):
     '''
     Принимает список категорий, возвращает строку
     '''
-    first_string = "Percentage spent by category"
-    hash_table_of_strings = {1:'100| ',2:'90| ',3:'80| ',4:'70| ',5:'60| ',6:'50| ',7:'40| ',8:'30| ',9:'20| ',10:'10| ',11:' 0| '}
-    return hash_table_of_strings
+    count_categories = len(lst)
+    sum_spent = 0 
+    for cat in lst:
+        sum_spent += cat.spent()
 
-print(create_spend_chart([1]))
+    
+
+
+    first_string = "Percentage spent by category"
+    hash_table_of_strings = {100:'100| ',\
+                             90:' 90| ',\
+                             80:' 80| ',\
+                             70:' 70| ',\
+                             60:' 60| ',\
+                             50:' 50| ',\
+                             40:' 40| ',\
+                             30:' 30| ',\
+                             20:' 20| ',\
+                             10:' 10| ',\
+                             0:'  0| '}
+    for cat in lst:
+        for k in hash_table_of_strings.keys():
+            if cat.spent() / sum_spent * 100 <= k:
+                hash_table_of_strings[k] += '   '
+            else:
+                hash_table_of_strings[k] += 'o  '
+
+    medium_string = '    -' + '---' * count_categories
+
+    lower_block = []
+    names = []
+    for cat in lst:
+        names.append(cat.name)
+    max_len = max(map(len, names))
+    for i in range(max_len):
+        block = '     '
+        for cat in lst:
+            if i in range(len(cat.name)):
+                block += f'{cat.name[i]}  '
+            else:
+                block += '   '
+        lower_block.append(block)
+
+    res = first_string + '\n'
+    for k, v in hash_table_of_strings.items():
+        res += v + '\n'
+
+    res += medium_string + '\n'
+    for el in lower_block:
+        res += el + '\n'
+    
+    return res[:-2]
+
+print(create_spend_chart([food, clothing]))
 
 
