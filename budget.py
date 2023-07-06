@@ -45,11 +45,12 @@ class Category:
     def display(self):
         first_string = self.name.center(30, '*')
         res = first_string + '\n'
+        total = f"{self.get_balance():.2f}"
         for action in self.ledger:
             edited_amount = f"{action['amount']:.2f}"
             res += \
-            f"{action['description'].ljust(23)}{edited_amount.rjust(7)}\n" 
-        res += f"Total: {self.get_balance()}"
+            f"{action['description'][:23].ljust(23)}{edited_amount.rjust(7)}\n" 
+        res += f"Total: {total}"
 
         return res
 
@@ -61,37 +62,11 @@ class Category:
         return round(res, 2)
 
 
-
-    
-
-
-food = Category("Food")
-clothing = Category("Clothing")
-food.deposit(1000.00, 'initial deposit')
-food.withdraw(10.15, 'groceries')
-food.withdraw(15.89, 'restaurant and more foo')
-food.transfer(50.00, clothing)
-
-clothing.deposit(180.00, 'initial deposit')
-clothing.withdraw(10.25, 'skirt')
-clothing.withdraw(23.09, 'trousers')
-
-
-
-print(food)
-
-
 def create_spend_chart(lst):
-    '''
-    Принимает список категорий, возвращает строку
-    '''
     count_categories = len(lst)
     sum_spent = 0 
     for cat in lst:
         sum_spent += cat.spent()
-
-    
-
 
     first_string = "Percentage spent by category"
     hash_table_of_strings = {100:'100| ',\
@@ -137,7 +112,4 @@ def create_spend_chart(lst):
         res += el + '\n'
     
     return res[:-2]
-
-print(create_spend_chart([food, clothing]))
-
 
