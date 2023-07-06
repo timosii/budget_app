@@ -5,6 +5,9 @@ class Category:
         self.ledger = []
 
 
+    def __str__(self):
+        return self.display()
+
     def deposit(self, amount, description=''):
         self.ledger.append({"amount": amount, "description": description})
 
@@ -43,8 +46,9 @@ class Category:
         first_string = self.name.center(30, '*')
         res = first_string + '\n'
         for action in self.ledger:
+            edited_amount = f"{action['amount']:.2f}"
             res += \
-            f"{action['description'].ljust(23)}{str(action['amount']).rjust(7)}\n" 
+            f"{action['description'].ljust(23)}{edited_amount.rjust(7)}\n" 
         res += f"Total: {self.get_balance()}"
 
         return res
