@@ -1,9 +1,8 @@
-class Category:
 
+class Category:
     def __init__(self, name):
         self.name = name
         self.ledger = []
-
 
     def __str__(self):
         return self.display()
@@ -11,13 +10,11 @@ class Category:
     def deposit(self, amount, description=''):
         self.ledger.append({"amount": amount, "description": description})
 
-
     def withdraw(self, amount, description=''):
         if self.check_funds(amount):
             self.ledger.append({"amount": -amount, "description": description})
         return True if self.check_funds(amount) else False
 
-    
     def get_balance(self):
         balance = 0
         for note in self.ledger:
@@ -27,7 +24,6 @@ class Category:
 
         return balance
 
-
     def transfer(self, amount, category):
         if self.check_funds(amount):
             self.withdraw(amount, f"Transfer to {category.name}")
@@ -36,11 +32,9 @@ class Category:
         else:
             return False
 
-
     def check_funds(self, amount):
         self.amount = amount
         return False if self.amount > self.get_balance() else True
-
 
     def display(self):
         first_string = self.name.center(30, '*')
@@ -60,7 +54,6 @@ class Category:
             if action['amount'] < 0:
                 res += abs(action['amount'])
         return round(res, 2)
-
 
 def create_spend_chart(lst):
     count_categories = len(lst)
@@ -113,3 +106,29 @@ def create_spend_chart(lst):
     
     return res[:-2]
 
+
+food = Category("Food")
+food.deposit(1000, "initial deposit")
+food.withdraw(10.15, "groceries")
+food.withdraw(15.89, "restaurant and more food for dessert")
+# print(food.get_balance())
+clothing = Category("Clothing")
+food.transfer(50, clothing)
+clothing.withdraw(25.55)
+clothing.withdraw(100)
+# print(clothing.get_balance())
+auto = Category("Auto")
+auto.deposit(1000, "initial deposit")
+auto.withdraw(15)
+education = Category('Education')
+education.deposit(300, 'initial deposit')
+education.withdraw(80, 'Udemy')
+education.withdraw(88, 'Coursera')
+# print(education.get_balance())
+# print(auto.get_balance())
+
+# print(education)
+# print(food)
+# print(clothing)
+
+print(create_spend_chart([food, clothing, auto, education]))
